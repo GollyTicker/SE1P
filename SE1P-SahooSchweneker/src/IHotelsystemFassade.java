@@ -1,5 +1,3 @@
-import java.util.List;
-
 import Exceptions.FehlgeschlageneReservierungException;
 import Exceptions.GastNichtGefundenException;
 import Exceptions.GastRegistrierungFehlgeschlagenException;
@@ -9,6 +7,7 @@ import FachlicheTypen.BooleanTyp;
 import FachlicheTypen.GastNrTyp;
 import FachlicheTypen.NameTyp;
 import FachlicheTypen.PreisTyp;
+import FachlicheTypen.ReserveriendeGästeNrTyp;
 import FachlicheTypen.ReservierungsNrTyp;
 import FachlicheTypen.ZahlungsinformationsTyp;
 import FachlicheTypen.ZimmerNrTyp;
@@ -60,7 +59,7 @@ public interface IHotelsystemFassade {
 	 * @return List<IZimmerNr>
 	 * @throws UnerlaubteZimmerauswahlException
 	 */
-	List<ZimmerNrTyp> holeErfüllendeZimmerHoherPreisklasse(
+	ZimmerNrListeTyp holeErfüllendeZimmerHoherPreisklasse(
 			AnforderungslisteTyp anforderungsliste)
 			throws UnerlaubteZimmerauswahlException;
 
@@ -137,7 +136,7 @@ public interface IHotelsystemFassade {
 	 * @throws FehlgeschlageneReservierungException
 	 */
 	ReservierungsNrTyp reserviereZimmerMitAnforderungen(
-			List<GastNrTyp> reservierendePersonen,
+			ReserveriendeGästeNrTyp reservierendePersonen,
 			AnforderungslisteTyp anforderungsliste)
 			throws FehlgeschlageneReservierungException;
 
@@ -153,6 +152,6 @@ public interface IHotelsystemFassade {
 	 * @throws FehlgeschlageneReservierungException
 	 */
 	ReservierungsNrTyp reserviereAusgewähltesZimmer(
-			List<GastNrTyp> reservierendePersonen, ZimmerNrTyp zimmerNr)
+			ReserveriendeGästeNrTyp reservierendePersonen, ZimmerNrTyp zimmerNr)
 			throws FehlgeschlageneReservierungException;
 }

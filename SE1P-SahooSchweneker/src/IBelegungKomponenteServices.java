@@ -1,5 +1,3 @@
-import java.util.List;
-
 import Exceptions.FehlgeschlageneReservierungException;
 import Exceptions.UnerlaubteZimmerauswahlException;
 import FachlicheTypen.AnforderungslisteTyp;
@@ -13,7 +11,7 @@ public interface IBelegungKomponenteServices {
 	BooleanTyp gibtFreieAnforderungserfüllendeZimmer(
 			AnforderungslisteTyp anforderungsliste);
 	
-	List<ZimmerNrTyp> holeErfüllendeZimmerHoherPreisklasse(
+	ZimmerNrListeTyp holeErfüllendeZimmerHoherPreisklasse(
 			AnforderungslisteTyp anforderungsliste)
 			throws UnerlaubteZimmerauswahlException;
 	

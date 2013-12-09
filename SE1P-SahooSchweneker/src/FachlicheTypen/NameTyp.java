@@ -1,5 +1,5 @@
 package FachlicheTypen;
 
-public class NameTyp {
+public interface NameTyp {
 
 }

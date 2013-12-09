@@ -1,5 +1,5 @@
 package FachlicheTypen;
 
-public class GastNrTyp {
+public interface GastNrTyp {
 
 }
