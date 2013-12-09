@@ -10,6 +10,7 @@ import FachlicheTypen.PreisTyp;
 import FachlicheTypen.ReserveriendeGästeNrTyp;
 import FachlicheTypen.ReservierungsNrTyp;
 import FachlicheTypen.ZahlungsinformationsTyp;
+import FachlicheTypen.ZimmerNrListeTyp;
 import FachlicheTypen.ZimmerNrTyp;
 
 public interface IHotelsystemFassade {

@@ -4,6 +4,7 @@ import FachlicheTypen.AnforderungslisteTyp;
 import FachlicheTypen.BooleanTyp;
 import FachlicheTypen.ReservierungsNrTyp;
 import FachlicheTypen.ZahlungsinformationsTyp;
+import FachlicheTypen.ZimmerNrListeTyp;
 import FachlicheTypen.ZimmerNrTyp;
 
 public interface IBelegungKomponenteServices {
