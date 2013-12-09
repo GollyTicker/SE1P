@@ -1,9 +1,13 @@
 import java.util.List;
 
 import Exceptions.FehlgeschlageneReservierungException;
+import Exceptions.GastNichtGefundenException;
+import Exceptions.GastRegistrierungFehlgeschlagenException;
 import Exceptions.UnerlaubteZimmerauswahlException;
 import FachlicheTypen.AnforderungslisteTyp;
 import FachlicheTypen.BooleanTyp;
+import FachlicheTypen.GastNrTyp;
+import FachlicheTypen.NameTyp;
 import FachlicheTypen.PreisTyp;
 import FachlicheTypen.ReservierungsNrTyp;
 import FachlicheTypen.ZahlungsinformationsTyp;
@@ -71,6 +75,45 @@ public interface IHotelsystemFassade {
 	PreisTyp berechnePreis(ZimmerNrTyp zimmerNr);
 
 	/**
+	 * (Kommando) Registriert einen neuen Gast mit den gegebenen Informationen.
+	 * Diese Operation kann fehlschlagen, falls bereits ein Gast mit dem
+	 * gleichen Namen bereits vorhanden ist.
+	 * 
+	 * @param vorname
+	 *            Der Vorname des Gastes
+	 * @param nachname
+	 *            Der Nachname des Gastes
+	 * @param isErwachsen
+	 *            Ist der Gast ein Erwachsener?
+	 * @param hatBehinderung
+	 *            Hat der Gast eine Behinderung?
+	 * @return Die GastNr der neue registrierten Gastes
+	 * @throws GastRegistrierungFehlgeschlagenException
+	 */
+	GastNrTyp registriereGast(NameTyp vorname, NameTyp nachname,
+			BooleanTyp isErwachsen, BooleanTyp hatBehinderung)
+			throws GastRegistrierungFehlgeschlagenException;
+
+	/**
+	 * (Abfrage) Für einen bereits registrierten Gast, kriegt man mit dieser
+	 * Operation dessen GastNr zurück.
+	 * 
+	 * @param vorname
+	 *            Der Vorname des Gastes
+	 * @param nachname
+	 *            Der Nachname des Gastes
+	 * @param isErwachsen
+	 *            Ist der Gast ein Erwachsener?
+	 * @param hatBehinderung
+	 *            Hat der Gast eine Behinderung?
+	 * @return Die GastNr der vorhandenen Gastes
+	 * @throws GastNichtGefundenException
+	 */
+	GastNrTyp holeGast(NameTyp vorname, NameTyp nachname,
+			BooleanTyp isErwachsen, BooleanTyp hatBehinderung)
+			throws GastNichtGefundenException;
+
+	/**
 	 * (Abfrage) Die Zahlungsinformationen werden validiert. Bei Erfolg kommt
 	 * ein wahrer Wert zurück.
 	 * 
@@ -94,6 +137,7 @@ public interface IHotelsystemFassade {
 	 * @throws FehlgeschlageneReservierungException
 	 */
 	ReservierungsNrTyp reserviereZimmerMitAnforderungen(
+			List<GastNrTyp> reservierendePersonen,
 			AnforderungslisteTyp anforderungsliste)
 			throws FehlgeschlageneReservierungException;
 
@@ -108,6 +152,7 @@ public interface IHotelsystemFassade {
 	 * @return IReservierungsNr
 	 * @throws FehlgeschlageneReservierungException
 	 */
-	ReservierungsNrTyp reserviereAusgewähltesZimmer(ZimmerNrTyp zimmerNr)
+	ReservierungsNrTyp reserviereAusgewähltesZimmer(
+			List<GastNrTyp> reservierendePersonen, ZimmerNrTyp zimmerNr)
 			throws FehlgeschlageneReservierungException;
 }
