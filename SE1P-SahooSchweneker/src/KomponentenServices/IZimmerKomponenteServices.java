@@ -1,3 +1,4 @@
+package KomponentenServices;
 import FachlicheTypen.PreisTyp;
 import FachlicheTypen.ZimmerNrTyp;
 

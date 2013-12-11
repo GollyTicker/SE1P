@@ -1,7 +1,12 @@
+package Anwendungskern;
+import java.util.List;
+
 import Exceptions.FehlgeschlageneReservierungException;
 import Exceptions.GastNichtGefundenException;
 import Exceptions.GastRegistrierungFehlgeschlagenException;
 import Exceptions.UnerlaubteZimmerauswahlException;
+import Exceptions.UngültigeReservierendeGästeException;
+import Exceptions.ZahlungFehlgeschlagenException;
 import FachlicheTypen.AnforderungslisteTyp;
 import FachlicheTypen.BooleanTyp;
 import FachlicheTypen.GastNrTyp;
@@ -114,6 +119,22 @@ public interface IHotelsystemFassade {
 			throws GastNichtGefundenException;
 
 	/**
+	 * (Abfrage) Prüft ob die zu reservierende Gäste existieren und stellt
+	 * sicher, dass die Liste eine gültige Menge an reservierenden Gästen
+	 * darstellt.
+	 * 
+	 * @param reservierendeGäste
+	 *            Eine primitive Liste der reservierenden Gästen.
+	 * @return Eine fachliche Liste der reservierenden Gästen. Diese Liste ist
+	 *         für die Reservierungsoperation notwendig.
+	 * @throws UngültigeReservierendeGästeException
+	 *             Diese Exception fägt die Fälle für ungültige Gästelisten oder
+	 *             für unregistrierte Gäste ab.
+	 */
+	ReserveriendeGästeNrTyp validiereGäste(List<GastNrTyp> reservierendeGäste)
+			throws UngültigeReservierendeGästeException;
+
+	/**
 	 * (Abfrage) Die Zahlungsinformationen werden validiert. Bei Erfolg kommt
 	 * ein wahrer Wert zurück.
 	 * 
@@ -125,18 +146,37 @@ public interface IHotelsystemFassade {
 			ZahlungsinformationsTyp zahlungsinformation);
 
 	/**
+	 * (Kommando) Delegiert die Transaktion an das Buchungsnachbarsystem. Das
+	 * Nachbarsystem übernimmt eine weitere Validierung vor der Prüfung.
+	 * 
+	 * @param zahlungsinformation
+	 *            Bitcoin/Kreditkarte sowie begleitende Information
+	 * @throws ZahlungFehlgeschlagenException
+	 *             Wird geworfen falls die Buchung kritisch fehlschlägt. Die
+	 *             Exception enthält dann weitere Information zur Transaktion.
+	 */
+	void bucheZahlung(ZahlungsinformationsTyp zahlungsinformation)
+			throws ZahlungFehlgeschlagenException;
+
+	/**
 	 * (Kommando) Diese Operation wählt für den Gast (mittlere/niedriger
 	 * Preisklasse) ein Zimmer mit den gegebenen Anforderungen aus. Bei Erfolg
 	 * wird ein Identifikator der Reservierung zurückgegeben. Sonst wird eine
 	 * FehlgeschlageneReservierungException geworfen. (@pre) Die Anforderungen
 	 * beziehen sich auf die hohe Preisklasse.
 	 * 
+	 * @param zahlungsinformation
+	 *            Die Information die das Buchhaltungsnachbarsystem für die
+	 *            Transaktion benötigt.
+	 * @param reservierendePersonen
+	 *            Eine Liste der Gäste die zu dieser Reservierung gehören.
 	 * @param anforderungsliste
 	 *            Liste der Anforderungen
 	 * @return IReservierungsNr
 	 * @throws FehlgeschlageneReservierungException
 	 */
 	ReservierungsNrTyp reserviereZimmerMitAnforderungen(
+			ZahlungsinformationsTyp zahlungsinformation,
 			ReserveriendeGästeNrTyp reservierendePersonen,
 			AnforderungslisteTyp anforderungsliste)
 			throws FehlgeschlageneReservierungException;
@@ -147,12 +187,23 @@ public interface IHotelsystemFassade {
 	 * Reservierung zurückgegeben. Sonst wird eine
 	 * FehlgeschlageneReservierungException geworfen.
 	 * 
+	 * @param zahlungsinformation
+	 *            Die Information die das Buchhaltungsnachbarsystem für die
+	 *            Transaktion benötigt.
+	 * @param reservierendePersonen
+	 *            Eine Liste der Gäste die zu dieser Reservierung gehören.
 	 * @param zimmerNr
 	 *            Die ZimmerNr des zu reservierenden Zimmers
 	 * @return IReservierungsNr
 	 * @throws FehlgeschlageneReservierungException
 	 */
 	ReservierungsNrTyp reserviereAusgewähltesZimmer(
+			ZahlungsinformationsTyp zahlungsinformation,
 			ReserveriendeGästeNrTyp reservierendePersonen, ZimmerNrTyp zimmerNr)
 			throws FehlgeschlageneReservierungException;
 }
+
+// TODO: zahlugnsinformation im javadoc für die lezten beiden hinzufügen
+// reservierende personen überall ins javadoc hinzufügen
+// validiere und buche Zahlung hinzufügen dokumentieren udn zuordnen
+// ebenso validiere Gäste

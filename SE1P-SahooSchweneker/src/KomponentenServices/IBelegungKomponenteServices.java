@@ -1,3 +1,4 @@
+package KomponentenServices;
 import Exceptions.FehlgeschlageneReservierungException;
 import Exceptions.UnerlaubteZimmerauswahlException;
 import FachlicheTypen.AnforderungslisteTyp;
